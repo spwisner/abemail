@@ -1,6 +1,6 @@
 import React from 'react';
-import Navigation from './components/navigation/Navigation.js';
-import Main from './components/Main.js';
+import Navigation from './components/navigation/Navigation'
+import Main from './components/Main';
 import './style/index.css';
 
 const store = require('./store.js');
@@ -21,4 +21,4 @@ const App = () => (
   </div>
 );
 
-module.exports = App;
+export default App;
