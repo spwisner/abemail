@@ -1,14 +1,24 @@
-import React, { Component } from 'react';
-import './App.css';
+import React from 'react';
+import Navigation from './components/navigation/Navigation.js';
+import Main from './components/Main.js';
+import './style/index.css';
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        App Contents
-      </div>
-    );
-  }
-}
+const store = require('./store.js');
 
-export default App;
+const config = {
+  apiOrigins: {
+    production: 'heroku',
+    development: 'http://localhost:4741'
+  },
+};
+
+store.api = config.apiOrigins.development;
+
+const App = () => (
+  <div>
+    <Navigation />
+    <Main />
+  </div>
+);
+
+module.exports = App;
