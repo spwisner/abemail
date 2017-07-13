@@ -20,3 +20,10 @@ export function _displayNavDropdown(boolean) {
     boolean,
   });
 }
+
+export function _setIsSignInForm(boolean) {
+  displatcher.dispatch( {
+    type: "SET_IS_SIGN_IN_FORM",
+    boolean,
+  });
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import CredentialsStore from '../../../stores/CredentialsStore';
+import {Link} from 'react-router-dom';
 // import * as CredentialsActions from '../../actions/CredentialsActions';
 
 export default class SignIn extends React.Component {

@@ -10,6 +10,7 @@ class CredentialsStore extends EventEmitter {
     this.userToken = "";
     this.isSignedIn = false;
     this.navDropdownClass = "dropdown";
+    this.displaySignInForm = true;
   }
 
   _signIn(data) {
@@ -22,6 +23,10 @@ class CredentialsStore extends EventEmitter {
     // })
     .done((response) => {
       console.log(response);
+
+      // to close dropdown after login
+      this.navDropdownClass = "dropdown";
+
       this.credentials = response.user;
       this.userId = response.user.id;
       this.userToken = response.user.token;
@@ -65,6 +70,20 @@ class CredentialsStore extends EventEmitter {
     return this.isSignedIn;
   }
 
+  _getIsSignInForm() {
+    return this.displaySignInForm;
+  }
+
+  _setIsSignInForm(boolean) {
+    if (boolean) {
+      this.displaySignInForm = true;
+    } else {
+      this.displaySignInForm = false;
+    }
+    this.emit("change");
+    return;
+  }
+
   _signOut(id) {
     apiAuth.signOut(id)
     .done((response) => {
@@ -98,6 +117,11 @@ class CredentialsStore extends EventEmitter {
 
       case "DISPLAY_NAV_DROPDOWN": {
         this._displayNavDropdown(action.boolean);
+        break;
+      }
+
+      case "SET_IS_SIGN_IN_FORM": {
+        this._setIsSignInForm(action.boolean);
         break;
       }
 

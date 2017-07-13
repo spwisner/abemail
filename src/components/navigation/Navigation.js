@@ -1,5 +1,6 @@
 import React from 'react';
 import SignIn from './credentials/SignIn';
+import SignOut from './credentials/SignUp';
 import CredentialsStore from '../../stores/CredentialsStore';
 
 export default class Navigation extends React.Component {
@@ -8,9 +9,19 @@ export default class Navigation extends React.Component {
 
     this.state = {
       dropdownClass: CredentialsStore._getNavDropdownClass(),
+      isSignedIn: CredentialsStore._getUserStatus(),
     }
 
     this.toggleNavDropdown = this.toggleNavDropdown.bind(this);
+  }
+
+  componentWillMount() {
+    CredentialsStore.on("change", () => {
+      this.setState({
+        isSignedIn: CredentialsStore._getUserStatus(),
+        dropdownClass: CredentialsStore._getNavDropdownClass(),
+      });
+    });
   }
 
   toggleNavDropdown(event) {
@@ -29,6 +40,8 @@ export default class Navigation extends React.Component {
   }
 
   render() {
+    const displaySignInForm = CredentialsStore._getIsSignInForm();
+    console.log(displaySignInForm)
     return (
       <div>
         <nav className="navbar navbar-inverse">
@@ -38,10 +51,10 @@ export default class Navigation extends React.Component {
             </div>
             <div>
               <ul className="nav navbar-nav navbar-right">
-                <li className={this.state.dropdownClass}>
+                <li id="nav-dropdown" className={this.state.dropdownClass}>
                   <a className="dropdown-toggle" data-toggle="dropdown" onClick={this.toggleNavDropdown} href="#">Login <span className="glyphicon glyphicon-log-in"></span></a>
                   <div className="dropdown-menu">
-                    <SignIn />
+                    {displaySignInForm ? <SignIn /> : <SignOut /> }
                   </div>
                 </li>
               </ul>
