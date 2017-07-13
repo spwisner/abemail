@@ -1,10 +1,5 @@
 const store = require('../store');
 import CredentialsStore from '../stores/CredentialsStore';
-// const userToken = CredentialsStore._getUserToken();
-// const userId = CredentialsStore._getUserId();
-
-const userToken = "";
-const userId = "";
 const $ = require('jquery');
 
 // Login Api
@@ -26,6 +21,8 @@ const signIn = function(data) {
 };
 
 const signOut = function() {
+  const userToken = CredentialsStore._getUserToken();
+  const userId = CredentialsStore._getUserId();
   return $.ajax({
     url: `${store.apiOrigin}/api/sign-out/${userId}`,
     method: 'DELETE',
@@ -36,6 +33,8 @@ const signOut = function() {
 };
 
 const changePassword = function(data) {
+  const userToken = CredentialsStore._getUserToken();
+  const userId = CredentialsStore._getUserId();
   return $.ajax({
     url: `${store.apiOrigin}/api/change-password/${userId}`,
     method: 'PATCH',

@@ -6,3 +6,10 @@ export function _signIn(object) {
     object,
   });
 }
+
+export function __signOut(id) {
+  dispatcher.dispatch( {
+    type: "SIGN_OUT",
+    id,
+  });
+}
