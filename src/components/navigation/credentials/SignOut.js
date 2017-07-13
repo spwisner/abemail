@@ -28,7 +28,7 @@ export default class SignIn extends React.Component {
   render() {
     return (
       <div>
-      <form name="signInForm" onSubmit={this._handleSignIn}>
+        <form name="signInForm" onSubmit={this._handleSignIn}>
           <div className="form-group">
             <input className="form-control" name="email" type="email" placeholder="Email" />
           </div>

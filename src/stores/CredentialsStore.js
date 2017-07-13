@@ -1,6 +1,7 @@
 import { EventEmitter } from "events";
 import dispatcher from '../dispatcher';
 const apiAuth = require('../api/api-credentials');
+
 class CredentialsStore extends EventEmitter {
   constructor() {
     super();
@@ -8,6 +9,7 @@ class CredentialsStore extends EventEmitter {
     this.userId = "";
     this.userToken = "";
     this.isSignedIn = false;
+    this.navDropdownClass = "dropdown";
   }
 
   _signIn(data) {
@@ -39,9 +41,21 @@ class CredentialsStore extends EventEmitter {
     });
   };
 
+  _displayNavDropdown(boolean) {
+    if (boolean) {
+      this.navDropdownClass = "dropdown open";
+    } else {
+      this.navDropdownClass = "dropdown";
+    }
+  }
+
   _getUserId() {
     return this.userId;
   };
+
+  _getNavDropdownClass() {
+    return this.navDropdownClass;
+  }
 
   _getUserToken() {
     return this.userToken;
@@ -79,6 +93,11 @@ class CredentialsStore extends EventEmitter {
 
       case "SIGN_OUT": {
         this._signOut(action.id);
+        break;
+      }
+
+      case "DISPLAY_NAV_DROPDOWN": {
+        this._displayNavDropdown(action.boolean);
         break;
       }
 

@@ -7,9 +7,16 @@ export function _signIn(object) {
   });
 }
 
-export function __signOut(id) {
+export function _signOut(id) {
   dispatcher.dispatch( {
     type: "SIGN_OUT",
     id,
+  });
+}
+
+export function _displayNavDropdown(boolean) {
+  displatcher.dispatch( {
+    type: "DISPLAY_NAV_DROPDOWN",
+    boolean,
   });
 }

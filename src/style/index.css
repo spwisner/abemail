@@ -3,3 +3,13 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.dropdown-menu {
+  width: 300px;
+}
+
+/*Toggle Sign-In/Sign-Up*/
+.register-bg {
+  margin-top: 5px;
+  text-align: center;
+}

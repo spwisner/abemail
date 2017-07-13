@@ -1,4 +1,5 @@
 import React from 'react';
+
 import CredentialsStore from '../../../stores/CredentialsStore';
 // import * as CredentialsActions from '../../actions/CredentialsActions';
 
@@ -25,12 +26,6 @@ export default class SignIn extends React.Component {
     });
   }
 
-  _handleSignOut(event) {
-    event.preventDefault();
-    const id = CredentialsStore._getUserId();
-    return CredentialsStore._signOut(id);
-  }
-
   _handleSignIn(event) {
     event.preventDefault();
     const form = document.forms.signInForm;
@@ -47,17 +42,24 @@ export default class SignIn extends React.Component {
 
   render() {
     return (
-      <div>
-      <form name="signInForm" onSubmit={this._handleSignIn}>
+      <div className="container-fluid">
+        <h2>Sign-In</h2>
+        <form className="form login-form" name="signInForm" onSubmit={this._handleSignIn}>
           <div className="form-group">
+            <label>Email:</label>
             <input className="form-control" name="email" type="email" placeholder="Email" />
           </div>
           <div className="form-group">
+            <label>Password:</label>
             <input className="form-control" name="password" type="password" placeholder="Password" />
           </div>
-          <input type="submit" className="btn btn-success" value="Submit"/>
+          <input type="submit" className="btn btn-block btn-success btn-md" value="Sign-In" />
+          <div className="register-bg">
+            <div className="register-text-container">
+              <a href="#" className="register-text">Not a member? Click to Sign Up!</a>
+            </div>
+          </div>
         </form>
-        <button className="btn btn-danger" onClick={this._handleSignOut}>Sign Out</button>
       </div>
     )
   }
