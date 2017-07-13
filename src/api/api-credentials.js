@@ -1,13 +1,17 @@
 const store = require('../store');
-const apiOrigin = store.apiOrigin;
-const userToken = store.user.token;
-const userId = store.user.id;
+import CredentialsStore from '../stores/CredentialsStore';
+// const userToken = CredentialsStore._getUserToken();
+// const userId = CredentialsStore._getUserId();
+
+const userToken = "";
+const userId = "";
+const $ = require('jquery');
 
 // Login Api
 
 const signUp = function(data) {
   return $.ajax({
-    url: `${apiOrigin}/api/sign-up/`,
+    url: `${store.apiOrigin}/api/sign-up/`,
     method: 'POST',
     data,
   });
@@ -15,7 +19,7 @@ const signUp = function(data) {
 
 const signIn = function(data) {
   return $.ajax({
-    url: `${apiOrigin}/api/sign-in/`,
+    url: `${store.apiOrigin}/api/sign-in/`,
     method: 'POST',
     data,
   });
@@ -23,7 +27,7 @@ const signIn = function(data) {
 
 const signOut = function() {
   return $.ajax({
-    url: `${apiOrigin}/api/sign-out/${userId}`,
+    url: `${store.apiOrigin}/api/sign-out/${userId}`,
     method: 'DELETE',
     headers: {
       Authorization: `Token token=${userToken}`,
@@ -33,7 +37,7 @@ const signOut = function() {
 
 const changePassword = function(data) {
   return $.ajax({
-    url: `${apiOrigin}/api/change-password/${userId}`,
+    url: `${store.apiOrigin}/api/change-password/${userId}`,
     method: 'PATCH',
     headers: {
       Authorization: `Token token=${userToken}`,
