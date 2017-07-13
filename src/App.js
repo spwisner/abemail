@@ -12,7 +12,7 @@ const config = {
   },
 };
 
-store.api = config.apiOrigins.development;
+store.apiOrigin = config.apiOrigins.development;
 
 const App = () => (
   <div>
