@@ -89,13 +89,11 @@ class CredentialsStore extends EventEmitter {
   }
 
   _setIsSignInForm(boolean) {
-    console.log('in store');
     if (boolean) {
       this.displaySignInForm = true;
       this.emit("change");
       return;
     } else {
-      console.log('bool is false');
       this.displaySignInForm = false;
       this.emit("change");
       return;

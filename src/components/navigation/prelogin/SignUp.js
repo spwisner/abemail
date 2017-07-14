@@ -14,21 +14,9 @@ export default class SignUp extends React.Component {
     this._setIsSignInForm = this._setIsSignInForm.bind(this);
   }
 
-  componentWillMount() {
-    CredentialsStore.on("change", () => {
-      this.setState({
-        displaySignInForm: CredentialsStore._getIsSignInForm(),
-        // userId: CredentialsStore._getUserId(),
-        // userToken: CredentialsStore._getUserToken(),
-        // isSignedIn: CredentialsStore._getUserStatus(),
-      });
-    });
-  }
-
   _setIsSignInForm(event) {
     event.preventDefault();
-    console.log('in');
-    return CredentialsStore._setIsSignInForm(false);
+    return CredentialsStore._setIsSignInForm(true);
   }
 
   _handleSignUp(event) {

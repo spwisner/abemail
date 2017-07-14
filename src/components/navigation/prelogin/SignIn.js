@@ -7,25 +7,11 @@ export default class SignIn extends React.Component {
     super(props);
 
     this.state = {
-      userId: CredentialsStore._getUserId(),
-      userToken: CredentialsStore._getUserToken(),
-      isSignedIn: CredentialsStore._getUserStatus(),
       displaySignInForm: CredentialsStore._getIsSignInForm(),
     };
 
     this._handleSignIn = this._handleSignIn.bind(this);
     this._setIsSignInForm = this._setIsSignInForm.bind(this);
-  }
-
-  componentWillMount() {
-    CredentialsStore.on("change", () => {
-      this.setState({
-        userId: CredentialsStore._getUserId(),
-        userToken: CredentialsStore._getUserToken(),
-        isSignedIn: CredentialsStore._getUserStatus(),
-        displaySignInForm: CredentialsStore._getIsSignInForm(),
-      });
-    });
   }
 
   _handleSignIn(event) {
@@ -44,7 +30,6 @@ export default class SignIn extends React.Component {
 
   _setIsSignInForm(event) {
     event.preventDefault();
-    console.log('in');
     return CredentialsStore._setIsSignInForm(false);
   }
 

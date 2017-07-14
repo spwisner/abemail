@@ -9,6 +9,10 @@ export default class Navigation extends React.Component {
 
     this.state = {
       isSignedIn: CredentialsStore._getUserStatus(),
+      userId: CredentialsStore._getUserId(),
+      userToken: CredentialsStore._getUserToken(),
+      displaySignInForm: CredentialsStore._getIsSignInForm(),
+      displayCPForm: CredentialsStore._getDisplayCPForm(),
     }
   }
 
@@ -16,6 +20,10 @@ export default class Navigation extends React.Component {
     CredentialsStore.on("change", () => {
       this.setState({
         isSignedIn: CredentialsStore._getUserStatus(),
+        userId: CredentialsStore._getUserId(),
+        userToken: CredentialsStore._getUserToken(),
+        displaySignInForm: CredentialsStore._getIsSignInForm(),
+        displayCPForm: CredentialsStore._getDisplayCPForm(),
       });
     });
   }

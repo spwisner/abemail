@@ -1,14 +1,13 @@
 import React from 'react';
-// import SignOut from './SignOut.js';
+import SignOut from './SignOut';
 // import PostNavBtns from './PostNavBtns';
 // import ChangePasswordForm from './ChangePasswordForm';
 // import CredentialsStore from '../../../stores/CredentialsStore';
 
 function Postlogin() {
-    const displayForm = false;
     return (
       <div>
-        {displayForm ? <div>true</div> : <div>false</div>}
+        <SignOut />
       </div>
     )
 }
