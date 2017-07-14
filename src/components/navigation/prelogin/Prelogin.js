@@ -9,7 +9,7 @@ export default class Prelogin extends React.Component {
 
     this.state = {
       navDropdownClass: CredentialsStore._getNavDropdownClass(),
-    }
+    };
 
     this.toggleNavDropdown = this.toggleNavDropdown.bind(this);
   }
@@ -29,14 +29,6 @@ export default class Prelogin extends React.Component {
       });
       return CredentialsStore._displayNavDropdown(false);
     }
-  }
-
-  componentWillMount() {
-    CredentialsStore.on("change", () => {
-      this.setState({
-        navDropdownClass: CredentialsStore._getNavDropdownClass(),
-      });
-    });
   }
 
   render() {
