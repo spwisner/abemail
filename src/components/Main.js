@@ -3,7 +3,7 @@ import AuctionIndex from './auction/AuctionIndex';
 import Home from './Home';
 import {Switch, Route} from "react-router-dom";
 import AuctionView from './auction/AuctionView';
-import SignIn from './navigation/credentials/SignIn';
+import SignIn from './navigation/prelogin/SignIn';
 
 const Auction = () => (
   <Switch>
