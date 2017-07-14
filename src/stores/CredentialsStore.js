@@ -5,35 +5,34 @@ const apiAuth = require('../api/api-credentials');
 class CredentialsStore extends EventEmitter {
   constructor() {
     super();
-    this.credentials = [];
     this.userId = "";
     this.userToken = "";
     this.isSignedIn = false;
     this.navDropdownClass = "dropdown";
     this.displaySignInForm = true;
+    this.displayCPForm = false;
   }
 
+  ////////////////////
+  /////// API ////////
+  ////////////////////
   _signIn(data) {
     apiAuth.signIn(data)
-    // .then((response) => {
-    //   this.credentials = response.user;
-    //   this.userId = response.user.id;
-    //   this.userToken = response.user.token;
-    //   return;
-    // })
     .done((response) => {
-      console.log(response);
-
       // to close dropdown after login
       this.navDropdownClass = "dropdown";
 
-      this.credentials = response.user;
+      // Obtain userId and Token
       this.userId = response.user.id;
       this.userToken = response.user.token;
+
+      // Update Sign-In Status
       this.isSignedIn = true;
-      const form = document.forms.signInForm;
-      form.email.value = "";
-      form.password.value = "";
+
+      // Clear SignIn Form
+      // const form = document.forms.signInForm;
+      // form.email.value = "";
+      // form.password.value = "";
       this.emit("change");
       return;
     })
@@ -44,44 +43,6 @@ class CredentialsStore extends EventEmitter {
         return console.log('server error');
       }
     });
-  };
-
-  _displayNavDropdown(boolean) {
-    if (boolean) {
-      this.navDropdownClass = "dropdown open";
-    } else {
-      this.navDropdownClass = "dropdown";
-    }
-  }
-
-  _getUserId() {
-    return this.userId;
-  };
-
-  _getNavDropdownClass() {
-    return this.navDropdownClass;
-  }
-
-  _getUserToken() {
-    return this.userToken;
-  };
-
-  _getUserStatus() {
-    return this.isSignedIn;
-  }
-
-  _getIsSignInForm() {
-    return this.displaySignInForm;
-  }
-
-  _setIsSignInForm(boolean) {
-    if (boolean) {
-      this.displaySignInForm = true;
-    } else {
-      this.displaySignInForm = false;
-    }
-    this.emit("change");
-    return;
   }
 
   _signOut(id) {
@@ -101,7 +62,60 @@ class CredentialsStore extends EventEmitter {
         return console.log('server error');
       }
     });
+  }
+
+  ///////////////////////////
+  /////// Navigation ////////
+  ///////////////////////////
+
+  _displayNavDropdown(boolean) {
+    if (boolean) {
+      this.navDropdownClass = "dropdown open";
+    } else {
+      this.navDropdownClass = "dropdown";
+    }
+  }
+
+  _getNavDropdownClass() {
+    return this.navDropdownClass;
+  }
+
+  _getIsSignInForm() {
+    return this.displaySignInForm;
+  }
+
+  _getDisplayCPForm() {
+    return this.displayCPForm;
+  }
+
+  _setIsSignInForm(boolean) {
+    console.log('in store');
+    if (boolean) {
+      this.displaySignInForm = true;
+      this.emit("change");
+      return;
+    } else {
+      console.log('bool is false');
+      this.displaySignInForm = false;
+      this.emit("change");
+      return;
+    }
+  }
+
+  ///////////////////////////
+  /////// Credentials ///////
+  ///////////////////////////
+  _getUserId() {
+    return this.userId;
   };
+
+  _getUserToken() {
+    return this.userToken;
+  };
+
+  _getUserStatus() {
+    return this.isSignedIn;
+  }
 
   handleActions(action) {
     switch(action.type) {
