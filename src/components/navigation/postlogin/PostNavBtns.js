@@ -1,5 +1,4 @@
 import React from 'react';
-import SignOut from './SignOut'
 import CredentialsStore from '../../../stores/CredentialsStore';
 
 export default class PostNavBtns extends React.Component {
@@ -8,12 +7,14 @@ export default class PostNavBtns extends React.Component {
 
     this.state = {
       userId: CredentialsStore._getUserId(),
-      displayDropdown: "dropdown",
+      navDropdownClass: CredentialsStore._getNavDropdownClass(),
+      glyphiconValue: CredentialsStore._getGlyphiconValue(),
+      menuText: CredentialsStore._getMenuText(),
     }
 
     this.handleCPClick = this.handleCPClick.bind(this);
-    this.handleSignOut = this.handleSignOut.bind(this);
-    this.setDisplayPostDropdown = this.setDisplayPostDropdown.bind(this);
+    this._handleSignOut = this._handleSignOut.bind(this);
+    this.toggleNavDropdown = this.toggleNavDropdown.bind(this);
   }
 
   handleCPClick(event) {
@@ -22,44 +23,52 @@ export default class PostNavBtns extends React.Component {
     return;
   }
 
-  handleSignOut(event) {
+  _handleSignOut(event) {
     event.preventDefault();
     const id = this.state.userId;
-    CredentialsStore._signOut(id);
+    return CredentialsStore._signOut(id);
   }
 
-  setDisplayPostDropdown(event) {
+  toggleNavDropdown(event) {
     event.preventDefault();
-    const currentDisplayDropdown = this.state.displayDropdown;
-    if (currentDisplayDropdown === "dropdown") {
-      return this.setState({
-        displayDropdown: "dropdown open",
-      })
+    const dropdownState = this.state.navDropdownClass;
+
+    if (dropdownState === "dropdown") {
+      this.setState({
+        navDropdownClass: "dropdown-open",
+        glyphiconValue: "glyphicon glyphicon-collapse-up",
+        menuText: "Hide",
+
+      });
+      CredentialsStore._setGlyphiconValue("glyphicon glyphicon-collapse-up");
+      CredentialsStore._setMenuText("Hide");
+      return CredentialsStore._displayNavDropdown(true);
     } else {
-      return this.setState({
-        displayDropdown: "dropdown"
-      })
+      this.setState({
+        navDropdownClass: "dropdown",
+        glyphiconValue: CredentialsStore._setGlyphiconValue("glyphicon glyphicon-list"),
+        menuText: CredentialsStore._setMenuText("Options"),
+      });
+      return CredentialsStore._displayNavDropdown(false);
     }
   }
 
   render() {
-    const displayDropClass = this.state.displayDropdown;
+    const dropdownClass = CredentialsStore._getNavDropdownClass();
     return (
-
-
-
-
       <div>
         <ul className="nav navbar-nav navbar-right">
-          <li className={displayDropClass}>
-            <a className="dropdown-toggle" data-toggle="dropdown" href="#" onClick={this.setDisplayPostDropdown}>Options <span className="glyphicon glyphicon-list"></span></a>
-              <ul className="dropdown-menu">
-                <li><a href="#" onClick={this.handleCPClick}><span className="glyphicon glyphicon-wrench"></span>  Change Password</a></li>
-                <SignOut />
-              </ul>
+          <li className={dropdownClass}>
+            <a className="dropdown-toggle" data-toggle="dropdown" href="#" onClick={this.toggleNavDropdown}>{this.state.menuText} <span className={this.state.glyphiconValue}></span></a>
+              <div className="dropdown-menu small-dropdown-menu">
+                <ul className="hide-bullets">
+                  <li><a href="#" onClick={this.handleCPClick}><span className="glyphicon glyphicon-wrench"></span>  Change Password</a></li>
+                  <li><a href="#" onClick={this._handleSignOut}><span className="glyphicon glyphicon-log-out"></span>  Sign Out</a></li>
+                </ul>
+              </div>
             </li>
-          </ul>
-        </div>
+        </ul>
+      </div>
     )
   }
 }

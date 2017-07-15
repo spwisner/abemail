@@ -34,3 +34,17 @@ export function _setDisplayCPForm(boolean) {
     boolean,
   });
 }
+
+export function _setGlyphiconValue(string) {
+  dispatcher.dispatch( {
+    type: "SET_GLYPHICON_VALUE",
+    string,
+  });
+}
+
+export function _setMenuText(string) {
+  dispatcher.dispatch( {
+    type: "SET_MENU_TEXT",
+    string,
+  });
+}

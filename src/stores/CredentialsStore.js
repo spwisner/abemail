@@ -9,16 +9,35 @@ class CredentialsStore extends EventEmitter {
     this.userToken = "";
     this.isSignedIn = false;
     this.navDropdownClass = "dropdown";
+    this.glyphiconValue = "glyphicon glyphicon-list";
+    this.menuText = "Options";
     this.displaySignInForm = true;
     this.displayCPForm = false;
     this.isPostLogin = false;
+  }
+
+  _getGlyphiconValue() {
+    return this.glyphiconValue;
+  }
+
+  _setGlyphiconValue(str) {
+    this.glyphiconValue = str;
+    return;
+  }
+
+  _setMenuText(str) {
+    this.menuText = str;
+    return;
+  }
+
+  _getMenuText() {
+    return this.menuText;
   }
 
   ////////////////////
   /////// API ////////
   ////////////////////
   _signIn(data) {
-    console.log(data);
     apiAuth.signIn(data)
     .done((response) => {
       // to close dropdown after login
@@ -27,6 +46,9 @@ class CredentialsStore extends EventEmitter {
       // Obtain userId and Token
       this.userId = response.user.id;
       this.userToken = response.user.token;
+
+      this.glyphiconValue = "glyphicon glyphicon-list";
+      this.menuText = "Options";
 
       // Update Sign-In Status
       this.isSignedIn = true;
@@ -57,6 +79,7 @@ class CredentialsStore extends EventEmitter {
     apiAuth.signUp(data)
     .done((response) => {
       console.log(response);
+
       // to close dropdown after login
       this.navDropdownClass = "dropdown";
 
@@ -64,12 +87,6 @@ class CredentialsStore extends EventEmitter {
       this.userId = response.user.id;
       this.userToken = response.user.token;
 
-      // Clear SignIn Form
-      // const form = document.forms.credentialsForm;
-      // form.email.value = "";
-      // form.password.value = "";
-
-      // Needed for Auto-Sign-In
       this._signIn(signUpData);
 
       return;
@@ -83,20 +100,13 @@ class CredentialsStore extends EventEmitter {
     });
   }
 
-
-
-
-
-
-
-
-
-  _signOut(id) {
-    apiAuth.signOut(id)
+  _signOut() {
+    apiAuth.signOut()
     .done((response) => {
       this.isSignedIn = false;
       this.userId = "";
       this.userToken = "";
+      this.navDropdownClass = "dropdown";
       this.emit("change");
       return;
     })
@@ -108,6 +118,27 @@ class CredentialsStore extends EventEmitter {
         return console.log('server error');
       }
     });
+  }
+
+  _changePassword(data) {
+    apiAuth.changePassword(data)
+    .done(() => {
+      console.log('password changed');
+      this._signOut();
+
+      // Emit change
+      this.emit("change");
+      return;
+    })
+    .fail(() => {
+      console.log('fail');
+      // if (response.statusText === "Unauthorized") {
+      //   return console.log('fail: Unauthorized');
+      // } else if (response.statusText === "error") {
+      //   return console.log('server error');
+      // }
+    });
+
   }
 
   ///////////////////////////
@@ -198,6 +229,16 @@ class CredentialsStore extends EventEmitter {
 
       case "SET_DISPLAY_CP_FORM": {
         this._setDisplayCPForm(action.boolean);
+        break;
+      }
+
+      case "SET_GLYPHICON_VALUE": {
+        this._setGlyphiconValue(action.string);
+        break;
+      }
+
+      case "SET_MENU_TEXT": {
+        this._setMenuText(action.string);
         break;
       }
 

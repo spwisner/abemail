@@ -4,7 +4,7 @@ body {
   font-family: sans-serif;
 }
 
-.dropdown-menu {
+.large-dropdown-menu {
   width: 300px;
 }
 
@@ -16,4 +16,16 @@ body {
 
 .margin-right-btn {
   margin-right: 3px;
+}
+
+/* Post Login Nav */
+
+.small-dropdown-menu {
+  width: 200px;
+}
+
+.hide-bullets {
+    list-style-type: none;
+    padding: 0px 0px 0px 15px;
+    font-size: 15px;
 }

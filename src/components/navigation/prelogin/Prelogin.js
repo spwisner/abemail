@@ -64,8 +64,8 @@ export default class Prelogin extends React.Component {
       <div>
         <ul className="nav navbar-nav navbar-right">
           <li className={dropdownClass}>
-            <a id="a-nav-dropdown" className="dropdown-toggle" data-toggle="dropdown" href="#" onClick={this.toggleNavDropdown}>{this.state.menuText} <span className={this.state.glyphiconValue}></span></a>
-            <div className="dropdown-menu">
+            <a className="dropdown-toggle" data-toggle="dropdown" href="#" onClick={this.toggleNavDropdown}>{this.state.menuText} <span className={this.state.glyphiconValue}></span></a>
+            <div className="dropdown-menu large-dropdown-menu">
               {showSignInForm ? <SignIn _displayDropdown={this._displayDropdown} /> : <SignUp _displayDropdown={this._displayDropdown}/>}
             </div>
           </li>

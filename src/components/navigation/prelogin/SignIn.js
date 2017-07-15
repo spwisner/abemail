@@ -30,7 +30,7 @@ export default class SignIn extends React.Component {
     const data = {
       credentials: {
         email: "Z@Z",
-        password: "Z",
+        password: form.password.value,
       }
     };
 

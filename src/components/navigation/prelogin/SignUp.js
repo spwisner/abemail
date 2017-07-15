@@ -10,7 +10,6 @@ export default class SignUp extends React.Component {
       displaySignInForm: CredentialsStore._getIsSignInForm(),
     };
 
-    // this._handleSignUp = this._handleSignUp.bind(this);
     this._setIsSignInForm = this._setIsSignInForm.bind(this);
     this._cancelLogin = this._cancelLogin.bind(this);
   }
