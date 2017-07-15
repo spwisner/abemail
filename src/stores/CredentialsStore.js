@@ -80,6 +80,9 @@ class CredentialsStore extends EventEmitter {
     } else {
       this.navDropdownClass = "dropdown";
     }
+
+    this.emit("change");
+    return;
   }
 
   _getNavDropdownClass() {
@@ -92,6 +95,16 @@ class CredentialsStore extends EventEmitter {
 
   _getDisplayCPForm() {
     return this.displayCPForm;
+  }
+
+  _setDisplayCPForm(boolean) {
+    if (boolean) {
+      this.displayCPForm = true;
+    } else {
+      this.displayCPForm = false;
+    }
+    this.emit("change");
+    return;
   }
 
   _setIsSignInForm(boolean) {
@@ -140,6 +153,11 @@ class CredentialsStore extends EventEmitter {
 
       case "SET_IS_SIGN_IN_FORM": {
         this._setIsSignInForm(action.boolean);
+        break;
+      }
+
+      case "SET_DISPLAY_CP_FORM": {
+        this._setDisplayCPForm(action.boolean);
         break;
       }
 

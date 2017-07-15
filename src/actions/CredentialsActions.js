@@ -27,3 +27,10 @@ export function _setIsSignInForm(boolean) {
     boolean,
   });
 }
+
+export function _setDisplayCPForm(boolean) {
+  dispatcher.dispatch( {
+    type: "SET_DISPLAY_CP_FORM",
+    boolean,
+  });
+}
