@@ -11,6 +11,7 @@ class CredentialsStore extends EventEmitter {
     this.navDropdownClass = "dropdown";
     this.displaySignInForm = true;
     this.displayCPForm = false;
+    this.isPostLogin = false;
   }
 
   ////////////////////
@@ -30,9 +31,14 @@ class CredentialsStore extends EventEmitter {
       this.isSignedIn = true;
 
       // Clear SignIn Form
-      // const form = document.forms.signInForm;
-      // form.email.value = "";
-      // form.password.value = "";
+      const form = document.forms.signInForm;
+      form.email.value = "";
+      form.password.value = "";
+
+      // Signal Postlogin Nav
+      this.isPostLogin = true;
+
+      // Emit change
       this.emit("change");
       return;
     })
