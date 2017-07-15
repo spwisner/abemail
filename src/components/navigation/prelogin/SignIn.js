@@ -18,12 +18,26 @@ export default class SignIn extends React.Component {
     event.preventDefault();
     const form = document.forms.signInForm;
 
+    // const data = {
+    //   credentials: {
+    //     email: form.email.value,
+    //     password: form.password.value,
+    //   }
+    // };
+
+    /*********************TESTING**************/
     const data = {
       credentials: {
-        email: form.email.value,
-        password: form.password.value,
+        email: "Z@Z",
+        password: "Z",
       }
     };
+
+    /***********Get rid of empty var error with testing**********/ 
+    if (1 ===2) {
+      console.log(form);
+    }
+    /*********************TESTING*************/
 
     return CredentialsStore._signIn(data);
   }
