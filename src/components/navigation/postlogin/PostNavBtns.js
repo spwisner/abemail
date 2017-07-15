@@ -54,7 +54,7 @@ export default class PostNavBtns extends React.Component {
           <li className={displayDropClass}>
             <a className="dropdown-toggle" data-toggle="dropdown" href="#" onClick={this.setDisplayPostDropdown}>Options <span className="glyphicon glyphicon-list"></span></a>
               <ul className="dropdown-menu">
-                <li><a href="#" onClick={this.handleCPClick}>Change Password</a></li>
+                <li><a href="#" onClick={this.handleCPClick}><span className="glyphicon glyphicon-wrench"></span>  Change Password</a></li>
                 <SignOut />
               </ul>
             </li>

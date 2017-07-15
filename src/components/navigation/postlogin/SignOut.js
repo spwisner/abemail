@@ -20,7 +20,7 @@ export default class SignOut extends React.Component {
 
   render() {
     return (
-        <li><a href="#" onClick={this._handleSignOut}>Sign Out</a></li>
+        <li><a href="#" onClick={this._handleSignOut}><span className="glyphicon glyphicon-log-out"></span>  Sign Out</a></li>
     )
   }
 }
