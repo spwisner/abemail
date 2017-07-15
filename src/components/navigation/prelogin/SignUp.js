@@ -12,6 +12,7 @@ export default class SignUp extends React.Component {
 
     // this._handleSignUp = this._handleSignUp.bind(this);
     this._setIsSignInForm = this._setIsSignInForm.bind(this);
+    this._cancelLogin = this._cancelLogin.bind(this);
   }
 
   _setIsSignInForm(event) {
@@ -43,6 +44,12 @@ export default class SignUp extends React.Component {
     }
   }
 
+  _cancelLogin(event) {
+    event.preventDefault();
+    this.props._displayDropdown(false);
+    return;
+  }
+
   render() {
     return (
       <div className="container-fluid">
@@ -60,7 +67,8 @@ export default class SignUp extends React.Component {
             <label>Password Confirm:</label>
             <input className="form-control" name="passwordconfirm" type="password" placeholder="Password Confirmation" />
           </div>
-          <input type="submit" className="btn btn-block btn-success btn-md" value="Sign-In" />
+          <input type="submit" className="btn btn-success margin-right-btn" value="Sign-In" />
+          <button className="btn btn-danger" onClick={this._cancelLogin}>Cancel</button>
           <div className="register-bg">
             <div className="register-text-container">
               <a href="#" className="register-text" onClick={this._setIsSignInForm}>Already a member? Click to Login</a>

@@ -9,9 +9,31 @@ export default class Prelogin extends React.Component {
 
     this.state = {
       navDropdownClass: CredentialsStore._getNavDropdownClass(),
+      glyphiconValue: 'glyphicon glyphicon-log-in',
+      menuText: "Login",
     };
 
     this.toggleNavDropdown = this.toggleNavDropdown.bind(this);
+    this._displayDropdown = this._displayDropdown.bind(this);
+  }
+
+  _displayDropdown(bool) {
+    console.log(bool);
+    if (bool) {
+      this.setState({
+        navDropdownClass: "dropdown open",
+        glyphiconValue: "glyphicon glyphicon-collapse-up",
+        menuText: "Hide",
+      });
+      return CredentialsStore._displayNavDropdown(true);
+    } else {
+      this.setState({
+        navDropdownClass: "dropdown",
+        glyphiconValue: "glyphicon glyphicon-log-in",
+        menuText: "Login",
+      });
+      return CredentialsStore._displayNavDropdown(false);
+    }
   }
 
   toggleNavDropdown(event) {
@@ -20,12 +42,16 @@ export default class Prelogin extends React.Component {
 
     if (dropdownState === "dropdown") {
       this.setState({
-        navDropdownClass: "dropdown-open"
+        navDropdownClass: "dropdown-open",
+        glyphiconValue: "glyphicon glyphicon-collapse-up",
+        menuText: "Hide",
       });
       return CredentialsStore._displayNavDropdown(true);
     } else {
       this.setState({
-        navDropdownClass: "dropdown"
+        navDropdownClass: "dropdown",
+        glyphiconValue: "glyphicon glyphicon-log-in",
+        menuText: "Login",
       });
       return CredentialsStore._displayNavDropdown(false);
     }
@@ -38,9 +64,9 @@ export default class Prelogin extends React.Component {
       <div>
         <ul className="nav navbar-nav navbar-right">
           <li className={dropdownClass}>
-            <a className="dropdown-toggle" data-toggle="dropdown" href="#" onClick={this.toggleNavDropdown}>Login <span className="glyphicon glyphicon-log-in"></span></a>
+            <a id="a-nav-dropdown" className="dropdown-toggle" data-toggle="dropdown" href="#" onClick={this.toggleNavDropdown}>{this.state.menuText} <span className={this.state.glyphiconValue}></span></a>
             <div className="dropdown-menu">
-              {showSignInForm ? <SignIn /> : <SignUp />}
+              {showSignInForm ? <SignIn _displayDropdown={this._displayDropdown} /> : <SignUp _displayDropdown={this._displayDropdown}/>}
             </div>
           </li>
         </ul>
