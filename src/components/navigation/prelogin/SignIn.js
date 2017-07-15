@@ -16,29 +16,30 @@ export default class SignIn extends React.Component {
 
   _handleSignIn(event) {
     event.preventDefault();
-    const form = document.forms.signInForm;
+    const form = document.forms.credentialsForm;
 
-    // const data = {
-    //   credentials: {
-    //     email: form.email.value,
-    //     password: form.password.value,
-    //   }
-    // };
-
-    /*********************TESTING**************/
     const data = {
       credentials: {
-        email: "Z@Z",
-        password: "Z",
+        email: form.email.value,
+        password: form.password.value,
       }
     };
 
-    /***********Get rid of empty var error with testing**********/ 
+    /*********************TESTING**************/
+    // const data = {
+    //   credentials: {
+    //     email: "Z@Z",
+    //     password: "Z",
+    //   }
+    // };
+
+    /***********Get rid of empty var error with testing**********/
     if (1 ===2) {
       console.log(form);
     }
     /*********************TESTING*************/
 
+    form.password.value = "";
     return CredentialsStore._signIn(data);
   }
 
@@ -51,7 +52,7 @@ export default class SignIn extends React.Component {
     return (
       <div className="container-fluid">
         <h2>Sign-In</h2>
-        <form className="form login-form" name="signInForm" onSubmit={this._handleSignIn}>
+        <form className="form login-form" name="credentialsForm" onSubmit={this._handleSignIn}>
           <div className="form-group">
             <label>Email:</label>
             <input className="form-control" name="email" type="email" placeholder="Email" />

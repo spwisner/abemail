@@ -21,7 +21,7 @@ export default class SignUp extends React.Component {
 
   _handleSignUp(event) {
     event.preventDefault();
-    const form = document.forms.signUpForm;
+    const form = document.forms.credentialsForm;
 
     const data = {
       credentials: {
@@ -30,14 +30,24 @@ export default class SignUp extends React.Component {
       }
     };
 
-    return CredentialsStore._signUp(data);
+    if (form.password.value === form.passwordconfirm.value) {
+      form.password.value = "";
+      form.passwordconfirm.value = "";
+
+      return CredentialsStore._signUp(data);
+    } else {
+      form.password.value = "";
+      form.passwordconfirm.value = "";
+
+      return console.error('password !=== passwordconfirm');
+    }
   }
 
   render() {
     return (
       <div className="container-fluid">
         <h2>Sign-Up</h2>
-        <form className="form login-form" name="signUpForm" onSubmit={this._handleSignUp}>
+        <form className="form login-form" name="credentialsForm" onSubmit={this._handleSignUp}>
           <div className="form-group">
             <label>Email:</label>
             <input className="form-control" name="email" type="email" placeholder="Email" />
@@ -48,7 +58,7 @@ export default class SignUp extends React.Component {
           </div>
           <div className="form-group">
             <label>Password Confirm:</label>
-            <input className="form-control" name="password-confirm" type="password" placeholder="Password Confirmation" />
+            <input className="form-control" name="passwordconfirm" type="password" placeholder="Password Confirmation" />
           </div>
           <input type="submit" className="btn btn-block btn-success btn-md" value="Sign-In" />
           <div className="register-bg">

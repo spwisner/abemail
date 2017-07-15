@@ -18,6 +18,7 @@ class CredentialsStore extends EventEmitter {
   /////// API ////////
   ////////////////////
   _signIn(data) {
+    console.log(data);
     apiAuth.signIn(data)
     .done((response) => {
       // to close dropdown after login
@@ -31,9 +32,8 @@ class CredentialsStore extends EventEmitter {
       this.isSignedIn = true;
 
       // Clear SignIn Form
-      const form = document.forms.signInForm;
+      const form = document.forms.credentialsForm;
       form.email.value = "";
-      form.password.value = "";
 
       // Signal Postlogin Nav
       this.isPostLogin = true;
@@ -50,6 +50,46 @@ class CredentialsStore extends EventEmitter {
       }
     });
   }
+
+
+  _signUp(data) {
+    const signUpData = data;
+    apiAuth.signUp(data)
+    .done((response) => {
+      console.log(response);
+      // to close dropdown after login
+      this.navDropdownClass = "dropdown";
+
+      // Obtain userId and Token
+      this.userId = response.user.id;
+      this.userToken = response.user.token;
+
+      // Clear SignIn Form
+      // const form = document.forms.credentialsForm;
+      // form.email.value = "";
+      // form.password.value = "";
+
+      // Needed for Auto-Sign-In
+      this._signIn(signUpData);
+
+      return;
+    })
+    .fail((response) => {
+      if (response.statusText === "Unauthorized") {
+        return console.log('fail: Unauthorized');
+      } else if (response.statusText === "error") {
+        return console.log('server error');
+      }
+    });
+  }
+
+
+
+
+
+
+
+
 
   _signOut(id) {
     apiAuth.signOut(id)
