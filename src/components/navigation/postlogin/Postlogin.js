@@ -21,14 +21,6 @@ export default class Postlogin extends React.Component {
     }
   }
 
-  componentDidMount() {
-    CredentialsStore.on("change", () => {
-      this.setState({
-        displayCPForm: CredentialsStore._getDisplayCPForm(),
-      })
-    })
-  }
-
   render() {
     const displayForm = CredentialsStore._getDisplayCPForm();
     return (

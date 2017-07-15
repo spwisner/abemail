@@ -1,12 +1,25 @@
 import React from 'react';
+import CredentialsStore from '../../../stores/CredentialsStore';
 
 export default class ChangePasswordForm extends React.Component {
+  constructor() {
+    super();
+
+    this.cancelCP = this.cancelCP.bind(this);
+  }
+
+  cancelCP(event) {
+    event.preventDefault();
+    CredentialsStore._setDisplayCPForm(false);
+    return;
+  }
+
   render() {
     return (
       <div>
         <ul className="nav navbar-nav navbar-right">
           <li className="dropdown open">
-            <a className="dropdown-toggle" data-toggle="dropdown" href="#">Options <span className="glyphicon glyphicon-list"></span></a>
+            <a className="dropdown-toggle" data-toggle="dropdown" href="#" onClick={this.cancelCP}>Options <span className="glyphicon glyphicon-list"></span></a>
             <div className="dropdown-menu">
               <div className="container-fluid">
                 <h2>Change Password</h2>
@@ -24,7 +37,7 @@ export default class ChangePasswordForm extends React.Component {
                     <input type="password" className="form-control" name="confirm"/>
                   </div>
                   <input type="submit" className="btn btn-sm btn-success margin-right-btn" value="Submit"/>
-                  <button type="button" className="btn btn-sm btn-danger">Cancel</button>
+                  <button type="button" className="btn btn-sm btn-danger" onClick={this.cancelCP}>Cancel</button>
                 </form>
               </div>
             </div>

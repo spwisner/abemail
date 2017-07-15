@@ -45,6 +45,10 @@ export default class PostNavBtns extends React.Component {
   render() {
     const displayDropClass = this.state.displayDropdown;
     return (
+
+
+
+
       <div>
         <ul className="nav navbar-nav navbar-right">
           <li className={displayDropClass}>
@@ -55,7 +59,7 @@ export default class PostNavBtns extends React.Component {
               </ul>
             </li>
           </ul>
-      </div>
+        </div>
     )
   }
 }
