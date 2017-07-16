@@ -43,6 +43,7 @@ class CredentialsStore extends EventEmitter {
   ////////////////////
 
   _setSuccessfulLogin(response) {
+    console.log(response);
     this.navDropdownClass = "dropdown";
 
     // Obtain userId and Token
@@ -242,6 +243,11 @@ class CredentialsStore extends EventEmitter {
 
       case "SIGN_OUT": {
         this._signOut(action.id);
+        break;
+      }
+
+      case "SIGN_UP": {
+        this._signUp(action.object);
         break;
       }
 

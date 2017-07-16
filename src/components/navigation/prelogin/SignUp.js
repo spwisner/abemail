@@ -1,6 +1,8 @@
 import React from 'react';
 
 import CredentialsStore from '../../../stores/CredentialsStore';
+const apiAuth = require('../../../api/api-credentials');
+const store = require('../../../store');
 
 export default class SignUp extends React.Component {
   constructor(props) {
@@ -12,6 +14,37 @@ export default class SignUp extends React.Component {
 
     this._setIsSignInForm = this._setIsSignInForm.bind(this);
     this._cancelLogin = this._cancelLogin.bind(this);
+    this._signUp = this._signUp.bind(this);
+    this._handleSignUp = this._handleSignUp.bind(this);
+  }
+
+  _signUp(data) {
+    store.signUpEmail = data.credentials.email;
+    store.signUpPW = data.credentials.password;
+    apiAuth.signUp(data)
+    .done((response) => {
+      console.log(response);
+      const data = {
+        credentials: {
+          email: store.signUpEmail,
+          password: store.signUpPW
+        }
+      }
+      console.log(data);
+      this.props._signIn(data);
+      return;
+    })
+    .fail((response) => {
+      if (response.statusText === "Unauthorized") {
+        return console.log('fail: Unauthorized');
+      } else if (response.statusText === "error") {
+        return console.log('server error');
+      }
+    });
+  }
+
+  runSignup(data) {
+    this._signUp(data);
   }
 
   _setIsSignInForm(event) {
@@ -30,17 +63,31 @@ export default class SignUp extends React.Component {
       }
     };
 
-    if (form.password.value === form.passwordconfirm.value) {
-      form.password.value = "";
-      form.passwordconfirm.value = "";
+    // if (form.password.value === form.passwordconfirm.value) {
+    //   form.password.value = "";
+    //   form.passwordconfirm.value = "";
+    //   console.log(data);
+    //   this.runSignup(data);
+    //   return;
+    //
+    // } else {
+    //   form.password.value = "";
+    //   form.passwordconfirm.value = "";
+    //
+    //   return console.error('password !=== passwordconfirm');
+    // }
 
-      return CredentialsStore._signUp(data);
-    } else {
+    if (form.password.value !== form.passwordconfirm.value) {
       form.password.value = "";
       form.passwordconfirm.value = "";
 
       return console.error('password !=== passwordconfirm');
     }
+
+    this._signUp(data);
+
+    return;
+
   }
 
   _cancelLogin(event) {

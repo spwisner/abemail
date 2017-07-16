@@ -7,6 +7,13 @@ export function _signIn(object) {
   });
 }
 
+export function _signUp(object) {
+  dispatcher.dispatch( {
+    type: "SIGN_UP",
+    object,
+  });
+}
+
 export function _signOut(id) {
   dispatcher.dispatch( {
     type: "SIGN_OUT",

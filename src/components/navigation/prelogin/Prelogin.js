@@ -2,8 +2,10 @@ import React from 'react';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import CredentialsStore from '../../../stores/CredentialsStore';
+const apiAuth = require('../../../api/api-credentials');
+import {withRouter} from "react-router-dom";
 
-export default class Prelogin extends React.Component {
+class Prelogin extends React.Component {
   constructor(props) {
     super(props);
 
@@ -15,6 +17,8 @@ export default class Prelogin extends React.Component {
 
     this.toggleNavDropdown = this.toggleNavDropdown.bind(this);
     this._displayDropdown = this._displayDropdown.bind(this);
+    this._signIn = this._signIn.bind(this);
+    this._signUp = this._signUp.bind(this);
   }
 
   _displayDropdown(bool) {
@@ -57,6 +61,51 @@ export default class Prelogin extends React.Component {
     }
   }
 
+  _redirectFunction() {
+    this.props.history.push("/auction");
+  }
+
+  _signIn(data) {
+    console.log(data);
+    apiAuth.signIn(data)
+    .done((response) => {
+      console.log(response);
+
+      CredentialsStore._setSuccessfulLogin(response);
+
+      this._redirectFunction();
+
+      return;
+    })
+    .fail((response) => {
+      if (response.statusText === "Unauthorized") {
+        return console.log('fail: Unauthorized');
+      } else if (response.statusText === "error") {
+        return console.log('server error');
+      }
+    });
+  }
+
+  _signUp(data) {
+    // const runSignIn = (data) => {
+    //   this._signIn(data)
+    // }
+    apiAuth.signUp(data)
+    .done((response) => {
+      console.log('inSignup');
+      this._signIn(data);
+
+      return;
+    })
+    .fail((response) => {
+      if (response.statusText === "Unauthorized") {
+        return console.log('fail: Unauthorized');
+      } else if (response.statusText === "error") {
+        return console.log('server error');
+      }
+    });
+  }
+
   render() {
     const showSignInForm = CredentialsStore._getIsSignInForm();
     const dropdownClass = CredentialsStore._getNavDropdownClass();
@@ -66,7 +115,7 @@ export default class Prelogin extends React.Component {
           <li className={dropdownClass}>
             <a className="dropdown-toggle" data-toggle="dropdown" href="#" onClick={this.toggleNavDropdown}>{this.state.menuText} <span className={this.state.glyphiconValue}></span></a>
             <div className="dropdown-menu large-dropdown-menu">
-              {showSignInForm ? <SignIn _displayDropdown={this._displayDropdown} /> : <SignUp _displayDropdown={this._displayDropdown}/>}
+              {showSignInForm ? <SignIn _displayDropdown={this._displayDropdown} _signIn={this._signIn}/> : <SignUp _displayDropdown={this._displayDropdown} _signIn={this._signIn}/>}
             </div>
           </li>
         </ul>
@@ -74,3 +123,5 @@ export default class Prelogin extends React.Component {
     )
   }
 }
+
+export default withRouter(Prelogin);
