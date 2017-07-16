@@ -27,7 +27,7 @@ export default class Navigation extends React.Component {
         <nav className="navbar navbar-inverse">
           <div className="container-fluid">
             <div className="navbar-header">
-              <span className="navbar-brand">Save Snippet</span>
+              <span className="navbar-brand">Silent Auction</span>
             </div>
             <div>
               {postLoginDisplay ? <Postlogin /> : <Prelogin /> }
