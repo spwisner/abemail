@@ -48,3 +48,10 @@ export function _setMenuText(string) {
     string,
   });
 }
+
+export function _setSuccessfulLogin(object) {
+  dispatcher.dispatch( {
+    type: "SET_SUCCESSFUL_LOGIN",
+    object,
+  });
+}

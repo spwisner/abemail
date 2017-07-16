@@ -51,6 +51,8 @@ class SignIn extends React.Component {
     apiAuth.signIn(data)
     .done((response) => {
 
+      CredentialsStore._setSuccessfulLogin(response);
+
       this._redirectFunction();
 
       return;

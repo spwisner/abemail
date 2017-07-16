@@ -1,7 +1,6 @@
 import { EventEmitter } from "events";
 import dispatcher from '../dispatcher';
 const apiAuth = require('../api/api-credentials');
-import {withRouter} from "react-router-dom";
 
 class CredentialsStore extends EventEmitter {
   constructor() {
@@ -42,6 +41,31 @@ class CredentialsStore extends EventEmitter {
   ////////////////////
   /////// API ////////
   ////////////////////
+
+  _setSuccessfulLogin(response) {
+    this.navDropdownClass = "dropdown";
+
+    // Obtain userId and Token
+    this.userId = response.user.id;
+    this.userToken = response.user.token;
+
+    this.glyphiconValue = "glyphicon glyphicon-list";
+    this.menuText = "Options";
+
+    // Update Sign-In Status
+    this.isSignedIn = true;
+
+    // Clear SignIn Form
+    const form = document.forms.credentialsForm;
+    form.email.value = "";
+
+    // Signal Postlogin Nav
+    this.isPostLogin = true;
+
+    // Emit change
+    this.emit("change");
+  }
+
   _signIn(data) {
     apiAuth.signIn(data)
     .done((response) => {
@@ -67,8 +91,6 @@ class CredentialsStore extends EventEmitter {
 
       // Emit change
       this.emit("change");
-
-      return this._redirectFunction();
     })
     .fail((response) => {
       if (response.statusText === "Unauthorized") {
@@ -245,6 +267,11 @@ class CredentialsStore extends EventEmitter {
 
       case "SET_MENU_TEXT": {
         this._setMenuText(action.string);
+        break;
+      }
+
+      case "SET_SUCCESSFUL_LOGIN": {
+        this._setSuccessfulLogin(action.object);
         break;
       }
 
