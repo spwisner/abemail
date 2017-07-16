@@ -1,8 +1,10 @@
 import React from 'react';
 
 import CredentialsStore from '../../../stores/CredentialsStore';
+import {withRouter} from "react-router-dom";
+const apiAuth = require('../../../api/api-credentials');
 
-export default class SignIn extends React.Component {
+class SignIn extends React.Component {
   constructor(props) {
     super(props);
 
@@ -13,6 +15,10 @@ export default class SignIn extends React.Component {
     this._handleSignIn = this._handleSignIn.bind(this);
     this._setIsSignInForm = this._setIsSignInForm.bind(this);
     this._cancelLogin = this._cancelLogin.bind(this);
+  }
+
+  _redirectFunction() {
+    this.props.history.push("/auction");
   }
 
   _handleSignIn(event) {
@@ -41,7 +47,24 @@ export default class SignIn extends React.Component {
     /*********************TESTING*************/
 
     form.password.value = "";
-    return CredentialsStore._signIn(data);
+
+    apiAuth.signIn(data)
+    .done((response) => {
+
+      this._redirectFunction();
+
+      return;
+    })
+    .fail((response) => {
+      if (response.statusText === "Unauthorized") {
+        return console.log('fail: Unauthorized');
+      } else if (response.statusText === "error") {
+        return console.log('server error');
+      }
+    });
+
+
+
   }
 
   _setIsSignInForm(event) {
@@ -80,3 +103,5 @@ export default class SignIn extends React.Component {
     )
   }
 }
+
+export default withRouter(SignIn);

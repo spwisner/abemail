@@ -1,6 +1,7 @@
 import { EventEmitter } from "events";
 import dispatcher from '../dispatcher';
 const apiAuth = require('../api/api-credentials');
+import {withRouter} from "react-router-dom";
 
 class CredentialsStore extends EventEmitter {
   constructor() {
@@ -34,6 +35,10 @@ class CredentialsStore extends EventEmitter {
     return this.menuText;
   }
 
+  _redirectFunction() {
+    return this.props.history.push("/some/Path");
+  }
+
   ////////////////////
   /////// API ////////
   ////////////////////
@@ -62,7 +67,8 @@ class CredentialsStore extends EventEmitter {
 
       // Emit change
       this.emit("change");
-      return;
+
+      return this._redirectFunction();
     })
     .fail((response) => {
       if (response.statusText === "Unauthorized") {
