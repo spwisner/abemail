@@ -63,20 +63,6 @@ export default class SignUp extends React.Component {
       }
     };
 
-    // if (form.password.value === form.passwordconfirm.value) {
-    //   form.password.value = "";
-    //   form.passwordconfirm.value = "";
-    //   console.log(data);
-    //   this.runSignup(data);
-    //   return;
-    //
-    // } else {
-    //   form.password.value = "";
-    //   form.passwordconfirm.value = "";
-    //
-    //   return console.error('password !=== passwordconfirm');
-    // }
-
     if (form.password.value !== form.passwordconfirm.value) {
       form.password.value = "";
       form.passwordconfirm.value = "";
@@ -84,9 +70,7 @@ export default class SignUp extends React.Component {
       return console.error('password !=== passwordconfirm');
     }
 
-    this._signUp(data);
-
-    return;
+    return this._signUp(data);
 
   }
 

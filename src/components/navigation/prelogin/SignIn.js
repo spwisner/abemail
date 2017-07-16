@@ -2,7 +2,6 @@ import React from 'react';
 
 import CredentialsStore from '../../../stores/CredentialsStore';
 import {withRouter} from "react-router-dom";
-const apiAuth = require('../../../api/api-credentials');
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -48,26 +47,6 @@ class SignIn extends React.Component {
 
     form.password.value = "";
     this.props._signIn(data);
-
-    // apiAuth.signIn(data)
-    // .done((response) => {
-    //
-    //   CredentialsStore._setSuccessfulLogin(response);
-    //
-    //   this._redirectFunction();
-    //
-    //   return;
-    // })
-    // .fail((response) => {
-    //   if (response.statusText === "Unauthorized") {
-    //     return console.log('fail: Unauthorized');
-    //   } else if (response.statusText === "error") {
-    //     return console.log('server error');
-    //   }
-    // });
-
-
-
   }
 
   _setIsSignInForm(event) {

@@ -18,7 +18,6 @@ class Prelogin extends React.Component {
     this.toggleNavDropdown = this.toggleNavDropdown.bind(this);
     this._displayDropdown = this._displayDropdown.bind(this);
     this._signIn = this._signIn.bind(this);
-    this._signUp = this._signUp.bind(this);
   }
 
   _displayDropdown(bool) {
@@ -74,26 +73,6 @@ class Prelogin extends React.Component {
       CredentialsStore._setSuccessfulLogin(response);
 
       this._redirectFunction();
-
-      return;
-    })
-    .fail((response) => {
-      if (response.statusText === "Unauthorized") {
-        return console.log('fail: Unauthorized');
-      } else if (response.statusText === "error") {
-        return console.log('server error');
-      }
-    });
-  }
-
-  _signUp(data) {
-    // const runSignIn = (data) => {
-    //   this._signIn(data)
-    // }
-    apiAuth.signUp(data)
-    .done((response) => {
-      console.log('inSignup');
-      this._signIn(data);
 
       return;
     })
