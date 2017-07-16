@@ -1,5 +1,7 @@
 import React from 'react';
 import CredentialsStore from '../../stores/CredentialsStore';
+import AuctionStore from '../../stores/AuctionStore';
+
 import {withRouter} from "react-router-dom";
 const apiAuctions = require('../../api/api-auctions');
 
@@ -8,20 +10,18 @@ class AuctionIndex extends React.Component {
     super();
 
     this.state = {
-      isSignedIn: CredentialsStore._getUserStatus()
+      isSignedIn: CredentialsStore._getUserStatus(),
+      auctions: [],
     }
   }
 
-  componentDidMount() {
-    CredentialsStore.on("change", () => {
-      this.setState({
-        isSignedIn: CredentialsStore._getUserStatus()
-      })
-    });
+  componentWillMount() {
     apiAuctions.getAuctions()
       .done((response) => {
-        console.log(response);
-
+        AuctionStore._setAuctions(response);
+        this.setState({
+          auctions: AuctionStore._getAuctions()
+        })
         return;
       })
       .fail((response) => {
@@ -31,7 +31,19 @@ class AuctionIndex extends React.Component {
           return console.log('server error');
         }
       });
+  }
 
+  componentDidMount() {
+    CredentialsStore.on("change", () => {
+      this.setState({
+        isSignedIn: CredentialsStore._getUserStatus(),
+      })
+    });
+    // AuctionStore.on("change", () => {
+    //   this.setState({
+    //     auctions: AuctionStore._getAuctions(),
+    //   });
+    // });
   }
 
   signInApproved(state) {
@@ -43,8 +55,10 @@ class AuctionIndex extends React.Component {
   }
 
   render() {
+    console.log('render');
     const userSignedIn = this.signInApproved(this.state.isSignedIn);
-    console.log(userSignedIn);
+    const auctions = this.state.auctions;
+    console.log(auctions);
     return (
       <div>
         {userSignedIn ?
