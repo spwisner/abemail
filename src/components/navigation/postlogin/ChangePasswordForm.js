@@ -28,8 +28,6 @@ export default class ChangePasswordForm extends React.Component {
       }
     };
 
-    console.log(data)
-
     if (form.new.value === form.passwordconfirm.value) {
       form.new.value = "";
       form.passwordconfirm.value = "";

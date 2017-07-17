@@ -23,22 +23,20 @@ export default class SignUp extends React.Component {
     store.signUpPW = data.credentials.password;
     apiAuth.signUp(data)
     .done((response) => {
-      console.log(response);
       const data = {
         credentials: {
           email: store.signUpEmail,
           password: store.signUpPW
         }
       }
-      console.log(data);
       this.props._signIn(data);
       return;
     })
     .fail((response) => {
       if (response.statusText === "Unauthorized") {
-        return console.log('fail: Unauthorized');
+        return console.error('fail: Unauthorized');
       } else if (response.statusText === "error") {
-        return console.log('server error');
+        return console.error('server error');
       }
     });
   }

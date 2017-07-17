@@ -43,7 +43,6 @@ class CredentialsStore extends EventEmitter {
   ////////////////////
 
   _setSuccessfulLogin(response) {
-    console.log(response);
     this.navDropdownClass = "dropdown";
 
     // Obtain userId and Token
@@ -95,9 +94,9 @@ class CredentialsStore extends EventEmitter {
     })
     .fail((response) => {
       if (response.statusText === "Unauthorized") {
-        return console.log('fail: Unauthorized');
+        return console.error('fail: Unauthorized');
       } else if (response.statusText === "error") {
-        return console.log('server error');
+        return console.error('server error');
       }
     });
   }
@@ -107,7 +106,6 @@ class CredentialsStore extends EventEmitter {
     const signUpData = data;
     apiAuth.signUp(data)
     .done((response) => {
-      console.log(response);
 
       // to close dropdown after login
       this.navDropdownClass = "dropdown";
@@ -122,9 +120,9 @@ class CredentialsStore extends EventEmitter {
     })
     .fail((response) => {
       if (response.statusText === "Unauthorized") {
-        return console.log('fail: Unauthorized');
+        return console.error('fail: Unauthorized');
       } else if (response.statusText === "error") {
-        return console.log('server error');
+        return console.error('server error');
       }
     });
   }
@@ -140,11 +138,10 @@ class CredentialsStore extends EventEmitter {
       return;
     })
     .fail((response) => {
-      console.log(response);
       if (response.status === 404) {
-        return console.log('fail: 404 Not found');
+        return console.error('fail: 404 Not found');
       } else if (response.status === 0) {
-        return console.log('server error');
+        return console.error('server error');
       }
     });
   }
@@ -152,20 +149,13 @@ class CredentialsStore extends EventEmitter {
   _changePassword(data) {
     apiAuth.changePassword(data)
     .done(() => {
-      console.log('password changed');
       this._signOut();
-
       // Emit change
       this.emit("change");
       return;
     })
     .fail(() => {
-      console.log('fail');
-      // if (response.statusText === "Unauthorized") {
-      //   return console.log('fail: Unauthorized');
-      // } else if (response.statusText === "error") {
-      //   return console.log('server error');
-      // }
+      return console.error('failure');
     });
 
   }

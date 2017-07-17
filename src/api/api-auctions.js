@@ -7,7 +7,6 @@ const $ = require('jquery');
 
 const getAuctions = function() {
   const userToken = CredentialsStore._getUserToken();
-  console.log(userToken);
   return $.ajax({
     url: `${store.apiOrigin}/api/auctions`,
     method: 'GET',

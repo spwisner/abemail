@@ -26,9 +26,9 @@ class AuctionIndex extends React.Component {
       })
       .fail((response) => {
         if (response.statusText === "Unauthorized") {
-          return console.log('fail: Unauthorized');
+          return console.error('fail: Unauthorized');
         } else if (response.statusText === "error") {
-          return console.log('server error');
+          return console.error('server error');
         }
       });
   }
@@ -55,10 +55,7 @@ class AuctionIndex extends React.Component {
   }
 
   render() {
-    console.log('render');
     const userSignedIn = this.signInApproved(this.state.isSignedIn);
-    const auctions = this.state.auctions;
-    console.log(auctions);
     return (
       <div>
         {userSignedIn ?

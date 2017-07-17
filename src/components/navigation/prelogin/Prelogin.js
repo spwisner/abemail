@@ -21,7 +21,6 @@ class Prelogin extends React.Component {
   }
 
   _displayDropdown(bool) {
-    console.log(bool);
     if (bool) {
       this.setState({
         navDropdownClass: "dropdown open",
@@ -65,10 +64,8 @@ class Prelogin extends React.Component {
   }
 
   _signIn(data) {
-    console.log(data);
     apiAuth.signIn(data)
     .done((response) => {
-      console.log(response);
 
       CredentialsStore._setSuccessfulLogin(response);
 
@@ -78,9 +75,9 @@ class Prelogin extends React.Component {
     })
     .fail((response) => {
       if (response.statusText === "Unauthorized") {
-        return console.log('fail: Unauthorized');
+        return console.error('fail: Unauthorized');
       } else if (response.statusText === "error") {
-        return console.log('server error');
+        return console.error('server error');
       }
     });
   }

@@ -41,7 +41,7 @@ class SignIn extends React.Component {
 
     /***********Get rid of empty var error with testing**********/
     if (1 ===2) {
-      console.log(form);
+      console.error(form);
     }
     /*********************TESTING*************/
 
