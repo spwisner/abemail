@@ -1,6 +1,5 @@
 import { EventEmitter } from "events";
 import dispatcher from '../dispatcher';
-const apiAuth = require('../api/api-credentials');
 
 class CredentialsStore extends EventEmitter {
   constructor() {
@@ -9,24 +8,66 @@ class CredentialsStore extends EventEmitter {
     this.userToken = "";
     this.isSignedIn = false;
     this.navDropdownClass = "dropdown";
-    this.glyphiconValue = "glyphicon glyphicon-list";
-    this.menuText = "Options";
+    this.glyphiconValue = "glyphicon glyphicon-log-in";
+    this.menuText = "Login";
     this.displaySignInForm = true;
     this.displayCPForm = false;
-    this.isPostLogin = false;
   }
 
+  //////////////////////////////////////////
+  ////////////////Navigation////////////////
+  //////////////////////////////////////////
+
+  //////////////Navigation Actions///////////
+  _togglePostNavDropdown(string) {
+    if (string === "dropdown") {
+      this.navDropdownClass = "dropdown open";
+      this.glyphiconValue = "glyphicon glyphicon-collapse-up";
+      this.menuText = "Hide";
+    } else {
+      this.navDropdownClass = "dropdown";
+      this.glyphiconValue = "glyphicon glyphicon-list";
+      this.menuText = "Options";
+      this.displayCPForm = false;
+    }
+    this.emit("change");
+    return;
+  }
+
+  _togglePreNavDropdown(string) {
+    if (string === "dropdown") {
+      this.navDropdownClass = "dropdown open";
+      this.glyphiconValue = "glyphicon glyphicon-collapse-up";
+      this.menuText = "Hide";
+    } else {
+      this.navDropdownClass = "dropdown";
+      this.glyphiconValue = "glyphicon glyphicon-log-in";
+      this.menuText = "Login";
+    }
+    this.emit("change");
+    return;
+  }
+
+  _setNavDropdownClass(string) {
+    this.navDropdownClass = string;
+    this.emit("change");
+    return;
+  }
+
+  ////////////Navigation Properties/////////
   _getGlyphiconValue() {
     return this.glyphiconValue;
   }
 
   _setGlyphiconValue(str) {
     this.glyphiconValue = str;
+    this.emit("change");
     return;
   }
 
   _setMenuText(str) {
     this.menuText = str;
+    this.emit("change");
     return;
   }
 
@@ -34,155 +75,46 @@ class CredentialsStore extends EventEmitter {
     return this.menuText;
   }
 
-  _redirectFunction() {
-    return this.props.history.push("/some/Path");
-  }
-
-  ////////////////////
-  /////// API ////////
-  ////////////////////
-
-  _setSuccessfulLogin(response) {
-    this.navDropdownClass = "dropdown";
-
-    // Obtain userId and Token
-    this.userId = response.user.id;
-    this.userToken = response.user.token;
-
-    this.glyphiconValue = "glyphicon glyphicon-list";
-    this.menuText = "Options";
-
-    // Update Sign-In Status
-    this.isSignedIn = true;
-
-    // Clear SignIn Form
-    const form = document.forms.credentialsForm;
-    form.email.value = "";
-
-    // Signal Postlogin Nav
-    this.isPostLogin = true;
-
-    // Emit change
-    this.emit("change");
-  }
-
-  _signIn(data) {
-    apiAuth.signIn(data)
-    .done((response) => {
-      // to close dropdown after login
-      this.navDropdownClass = "dropdown";
-
-      // Obtain userId and Token
-      this.userId = response.user.id;
-      this.userToken = response.user.token;
-
-      this.glyphiconValue = "glyphicon glyphicon-list";
-      this.menuText = "Options";
-
-      // Update Sign-In Status
-      this.isSignedIn = true;
-
-      // Clear SignIn Form
-      const form = document.forms.credentialsForm;
-      form.email.value = "";
-
-      // Signal Postlogin Nav
-      this.isPostLogin = true;
-
-      // Emit change
-      this.emit("change");
-    })
-    .fail((response) => {
-      if (response.statusText === "Unauthorized") {
-        return console.error('fail: Unauthorized');
-      } else if (response.statusText === "error") {
-        return console.error('server error');
-      }
-    });
-  }
-
-
-  _signUp(data) {
-    const signUpData = data;
-    apiAuth.signUp(data)
-    .done((response) => {
-
-      // to close dropdown after login
-      this.navDropdownClass = "dropdown";
-
-      // Obtain userId and Token
-      this.userId = response.user.id;
-      this.userToken = response.user.token;
-
-      this._signIn(signUpData);
-
-      return;
-    })
-    .fail((response) => {
-      if (response.statusText === "Unauthorized") {
-        return console.error('fail: Unauthorized');
-      } else if (response.statusText === "error") {
-        return console.error('server error');
-      }
-    });
-  }
-
-  _signOut() {
-    apiAuth.signOut()
-    .done((response) => {
-      this.isSignedIn = false;
-      this.userId = "";
-      this.userToken = "";
-      this.navDropdownClass = "dropdown";
-      this.emit("change");
-      return;
-    })
-    .fail((response) => {
-      if (response.status === 404) {
-        return console.error('fail: 404 Not found');
-      } else if (response.status === 0) {
-        return console.error('server error');
-      }
-    });
-  }
-
-  _changePassword(data) {
-    apiAuth.changePassword(data)
-    .done(() => {
-      this._signOut();
-      // Emit change
-      this.emit("change");
-      return;
-    })
-    .fail(() => {
-      return console.error('failure');
-    });
-
-  }
-
-  ///////////////////////////
-  /////// Navigation ////////
-  ///////////////////////////
-
-  _displayNavDropdown(boolean) {
-    if (boolean) {
-      this.navDropdownClass = "dropdown open";
-    } else {
-      this.navDropdownClass = "dropdown";
-    }
-
-    this.emit("change");
-    return;
-  }
-
   _getNavDropdownClass() {
     return this.navDropdownClass;
   }
 
-  _getIsSignInForm() {
-    return this.displaySignInForm;
+  //////////////////////////////////////////
+  ////////////////Credentials///////////////
+  //////////////////////////////////////////
+
+  //////////////////User ID/////////////////
+  _getUserId() {
+    return this.userId;
   }
 
+  _setUserId(string) {
+    this.userId = string;
+    return;
+  }
+
+  /////////////////User Token////////////////
+  _getUserToken() {
+    return this.userToken;
+  }
+  _setUserToken(string) {
+    this.userToken = string;
+    return;
+  }
+
+  ////////////////Login Status///////////////
+  _getUserStatus() {
+    return this.isSignedIn;
+  }
+
+  _setIsSignedIn(boolean) {
+    this.isSignedIn = boolean;
+    return;
+  }
+
+  ////////////////Form Styling///////////////
+
+  /////////Change Password Form
   _getDisplayCPForm() {
     return this.displayCPForm;
   }
@@ -197,54 +129,23 @@ class CredentialsStore extends EventEmitter {
     return;
   }
 
-  _setIsSignInForm(boolean) {
-    if (boolean) {
-      this.displaySignInForm = true;
-      this.emit("change");
-      return;
-    } else {
-      this.displaySignInForm = false;
-      this.emit("change");
-      return;
-    }
+  //////////Sign-In Form
+  _getIsSignInForm() {
+    return this.displaySignInForm;
   }
 
-  ///////////////////////////
-  /////// Credentials ///////
-  ///////////////////////////
-  _getUserId() {
-    return this.userId;
-  };
-
-  _getUserToken() {
-    return this.userToken;
-  };
-
-  _getUserStatus() {
-    return this.isSignedIn;
+  _setIsSignInForm() {
+    if (this.displaySignInForm === true) {
+      this.displaySignInForm = false;
+    } else {
+      this.displaySignInForm = true;
+    }
+    this.emit("change");
+    return;
   }
 
   handleActions(action) {
     switch(action.type) {
-      case "SIGN_IN": {
-        this._signIn(action.object);
-        break;
-      }
-
-      case "SIGN_OUT": {
-        this._signOut(action.id);
-        break;
-      }
-
-      case "SIGN_UP": {
-        this._signUp(action.object);
-        break;
-      }
-
-      case "DISPLAY_NAV_DROPDOWN": {
-        this._displayNavDropdown(action.boolean);
-        break;
-      }
 
       case "SET_IS_SIGN_IN_FORM": {
         this._setIsSignInForm(action.boolean);
@@ -266,8 +167,33 @@ class CredentialsStore extends EventEmitter {
         break;
       }
 
-      case "SET_SUCCESSFUL_LOGIN": {
-        this._setSuccessfulLogin(action.object);
+      case "SET_NAV_DROPDOWN_CLASS": {
+        this._setNavDropdownClass(action.string);
+        break;
+      }
+
+      case "TOGGLE_PRE_NAV_DROPDOWN": {
+        this._togglePreNavDropdown(action.string);
+        break;
+      }
+
+      case "TOGGLE_POST_NAV_DROPDOWN": {
+        this._togglePostNavDropdown(action.string);
+        break;
+      }
+
+      case "SET_IS_SIGNED_IN": {
+        this._setIsSignedIn(action.boolean);
+        break;
+      }
+
+      case "SET_USER_ID": {
+        this._setUserId(action.string);
+        break;
+      }
+
+      case "SET_USER_TOKEN": {
+        this._setUserToken(action.string);
         break;
       }
 
@@ -281,4 +207,5 @@ const credentialsStore = new CredentialsStore();
 
 dispatcher.register(credentialsStore.handleActions.bind(credentialsStore));
 
+// window.dispatcher = test
 export default credentialsStore;

@@ -1,35 +1,7 @@
 import dispatcher from '../dispatcher';
 
-export function _signIn(object) {
-  dispatcher.dispatch( {
-    type: "SIGN_IN",
-    object,
-  });
-}
-
-export function _signUp(object) {
-  dispatcher.dispatch( {
-    type: "SIGN_UP",
-    object,
-  });
-}
-
-export function _signOut(id) {
-  dispatcher.dispatch( {
-    type: "SIGN_OUT",
-    id,
-  });
-}
-
-export function _displayNavDropdown(boolean) {
-  displatcher.dispatch( {
-    type: "DISPLAY_NAV_DROPDOWN",
-    boolean,
-  });
-}
-
 export function _setIsSignInForm(boolean) {
-  displatcher.dispatch( {
+  dispatcher.dispatch( {
     type: "SET_IS_SIGN_IN_FORM",
     boolean,
   });
@@ -56,9 +28,43 @@ export function _setMenuText(string) {
   });
 }
 
-export function _setSuccessfulLogin(object) {
+export function _togglePreNavDropdown(string) {
   dispatcher.dispatch( {
-    type: "SET_SUCCESSFUL_LOGIN",
-    object,
+    type: "TOGGLE_PRE_NAV_DROPDOWN",
+    string,
+  });
+}
+
+export function _togglePostNavDropdown(string) {
+  dispatcher.dispatch( {
+    type: "TOGGLE_POST_NAV_DROPDOWN",
+    string,
+  });
+}
+
+export function _setIsSignedIn(boolean) {
+  dispatcher.dispatch( {
+    type: "SET_IS_SIGNED_IN",
+    boolean,
+  });
+}
+
+export function _setUserId(string) {
+  dispatcher.dispatch( {
+    type: "SET_USER_ID",
+    string,
+  });
+}
+
+export function _setUserToken(string) {
+  dispatcher.dispatch( {
+    type: "SET_USER_TOKEN",
+    string,
+  });
+}
+export function _setNavDropdownClass(string) {
+  dispatcher.dispatch( {
+    type: "SET_NAV_DROPDOWN_CLASS",
+    string,
   });
 }
