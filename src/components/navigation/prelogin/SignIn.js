@@ -8,32 +8,42 @@ class SignIn extends React.Component {
     this._handleSignIn = this._handleSignIn.bind(this);
   }
 
-  _handleSignIn(event) {
-    event.preventDefault();
-    const form = document.forms.credentialsForm;
-
-    /*********************FOR TESTING Start**************/
-
-    // const data = {
-    //   credentials: {
-    //     email: form.email.value,
-    //     password: form.password.value,
-    //   }
-    // };
-
-    // Data predefined with testing credentials
+  componentDidMount() {
     const data = {
       credentials: {
         email: "Z@Z",
         password: "z",
       }
     };
+    this.props._signIn(data);
+  }
+
+  _handleSignIn(event) {
+    event.preventDefault();
+    const form = document.forms.credentialsForm;
+
+    const data = {
+      credentials: {
+        email: form.email.value,
+        password: form.password.value,
+      }
+    };
+
+    /*********************FOR TESTING Start**************/
+
+    // Data predefined with testing credentials
+    // const data = {
+    //   credentials: {
+    //     email: "Z@Z",
+    //     password: "z",
+    //   }
+    // };
 
     /****To remove empty var error from
         browser console with testing******/
-    if (1 === 2) {
-      console.log(form);
-    }
+    // if (1 === 2) {
+    //   console.log(form);
+    // }
     /*********************FOR TESTING END**************/
 
     form.password.value = "";
