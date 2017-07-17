@@ -1,37 +1,37 @@
-import { EventEmitter } from "events";
-import dispatcher from '../dispatcher';
-
-class AuctionStore extends EventEmitter {
-  constructor() {
-    super();
-    this.auctions = [];
-  }
-
-  _getAuctions() {
-    return this.auctions;
-  }
-
-  _setAuctions(data) {
-    this.auctions = data;
-    this.emit("change");
-    return;
-  }
-
-  handleActions(action) {
-    switch(action.type) {
-      case "SET_AUCTIONS": {
-        this._setAuctions(action.object);
-        break;
-      }
-
-      default:
-        return undefined;
-    }
-  }
-}
-
-const auctionStore = new AuctionStore();
-
-dispatcher.register(auctionStore.handleActions.bind(auctionStore));
-
-export default auctionStore;
+// import { EventEmitter } from "events";
+// import dispatcher from '../dispatcher';
+//
+// class AuctionStore extends EventEmitter {
+//   constructor() {
+//     super();
+//     this.auctions = [];
+//   }
+//
+//   _getAuctions() {
+//     return this.auctions;
+//   }
+//
+//   _setAuctions(data) {
+//     this.auctions = data;
+//     this.emit("change");
+//     return;
+//   }
+//
+//   handleActions(action) {
+//     switch(action.type) {
+//       case "SET_AUCTIONS": {
+//         this._setAuctions(action.object);
+//         break;
+//       }
+//
+//       default:
+//         return undefined;
+//     }
+//   }
+// }
+//
+// const auctionStore = new AuctionStore();
+//
+// dispatcher.register(auctionStore.handleActions.bind(auctionStore));
+//
+// export default auctionStore;
