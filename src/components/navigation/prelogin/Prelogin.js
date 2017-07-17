@@ -1,7 +1,7 @@
 import React from 'react';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
-import CredentialsStore from '../../../stores/CredentialsStore';
+import * as CredentialsActions from '../../../actions/CredentialsActions';
 const apiAuth = require('../../../api/api-credentials');
 import {withRouter} from "react-router-dom";
 
@@ -9,89 +9,86 @@ class Prelogin extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      navDropdownClass: CredentialsStore._getNavDropdownClass(),
-      glyphiconValue: 'glyphicon glyphicon-log-in',
-      menuText: "Login",
-    };
-
-    this.toggleNavDropdown = this.toggleNavDropdown.bind(this);
-    this._displayDropdown = this._displayDropdown.bind(this);
+    this._togglePreNavDropdown = this._togglePreNavDropdown.bind(this);
     this._signIn = this._signIn.bind(this);
+    this._cancelPreLogin = this._cancelPreLogin.bind(this);
+    this._setIsSignInForm = this._setIsSignInForm.bind(this);
   }
 
-  _displayDropdown(bool) {
-    if (bool) {
-      this.setState({
-        navDropdownClass: "dropdown open",
-        glyphiconValue: "glyphicon glyphicon-collapse-up",
-        menuText: "Hide",
-      });
-      return CredentialsStore._displayNavDropdown(true);
-    } else {
-      this.setState({
-        navDropdownClass: "dropdown",
-        glyphiconValue: "glyphicon glyphicon-log-in",
-        menuText: "Login",
-      });
-      return CredentialsStore._displayNavDropdown(false);
-    }
-  }
-
-  toggleNavDropdown(event) {
+  _cancelPreLogin(event) {
     event.preventDefault();
-    const dropdownState = this.state.navDropdownClass;
-
-    if (dropdownState === "dropdown") {
-      this.setState({
-        navDropdownClass: "dropdown-open",
-        glyphiconValue: "glyphicon glyphicon-collapse-up",
-        menuText: "Hide",
-      });
-      return CredentialsStore._displayNavDropdown(true);
-    } else {
-      this.setState({
-        navDropdownClass: "dropdown",
-        glyphiconValue: "glyphicon glyphicon-log-in",
-        menuText: "Login",
-      });
-      return CredentialsStore._displayNavDropdown(false);
-    }
+    CredentialsActions._togglePreNavDropdown("dropdown open");
+    return;
   }
 
-  _redirectFunction() {
-    this.props.history.push("/auction");
+  _setIsSignInForm(event) {
+    event.preventDefault();
+    CredentialsActions._setIsSignInForm(!this.props._displaySignInForm);
+    return;
   }
+
+  _togglePreNavDropdown(event) {
+    event.preventDefault();
+    const dropdownState = this.props._navDropdownClass;
+    CredentialsActions._togglePreNavDropdown(dropdownState);
+  }
+
+  // _redirectFunction() {
+  //   this.props.history.push("/auction");
+  // }
 
   _signIn(data) {
     apiAuth.signIn(data)
     .done((response) => {
+      // this._redirectFunction();
+      // To close dropdown after login & make post-login menu:
+      CredentialsActions._togglePostNavDropdown("dropdown open")
 
-      CredentialsStore._setSuccessfulLogin(response);
+      // Obtain userId and Token
+      CredentialsActions._setUserId(response.user.id)
+      CredentialsActions._setUserToken(response.user.token);
 
-      this._redirectFunction();
+      // Update Sign-In Status
+      CredentialsActions._setIsSignedIn(true);
+
+      // Clear SignIn Form
+      const form = document.forms.credentialsForm;
+      form.email.value = "";
 
       return;
     })
     .fail((response) => {
       if (response.statusText === "Unauthorized") {
-        return console.error('fail: Unauthorized');
+        return console.log('fail: Unauthorized');
       } else if (response.statusText === "error") {
-        return console.error('server error');
+        return console.log('server error');
       }
     });
   }
 
   render() {
-    const showSignInForm = CredentialsStore._getIsSignInForm();
-    const dropdownClass = CredentialsStore._getNavDropdownClass();
+    const showSignInForm = this.props._displaySignInForm;
     return (
       <div>
         <ul className="nav navbar-nav navbar-right">
-          <li className={dropdownClass}>
-            <a className="dropdown-toggle" data-toggle="dropdown" href="#" onClick={this.toggleNavDropdown}>{this.state.menuText} <span className={this.state.glyphiconValue}></span></a>
+          <li className={this.props._navDropdownClass}>
+            <a className="dropdown-toggle" data-toggle="dropdown" href="#" onClick={this._togglePreNavDropdown}>{this.props._menuText} <span className={this.props._glyphiconValue}></span></a>
             <div className="dropdown-menu large-dropdown-menu">
-              {showSignInForm ? <SignIn _displayDropdown={this._displayDropdown} _signIn={this._signIn}/> : <SignUp _displayDropdown={this._displayDropdown} _signIn={this._signIn}/>}
+              {showSignInForm ?
+                <SignIn
+                  _displayDropdown={this._displayDropdown}
+                  _signIn={this._signIn}
+                  _cancelPreLogin={this._cancelPreLogin}
+                  _setIsSignInForm={this._setIsSignInForm}
+                  />
+                :
+                <SignUp
+                  _displayDropdown={this._displayDropdown}
+                  _signIn={this._signIn}
+                  _cancelPreLogin={this._cancelPreLogin}
+                  _setIsSignInForm={this._setIsSignInForm}
+                />
+              }
             </div>
           </li>
         </ul>
