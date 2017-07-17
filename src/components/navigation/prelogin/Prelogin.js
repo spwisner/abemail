@@ -33,9 +33,9 @@ class Prelogin extends React.Component {
     CredentialsActions._togglePreNavDropdown(dropdownState);
   }
 
-  // _redirectFunction() {
-  //   this.props.history.push("/auction");
-  // }
+  _redirectAuctions() {
+    this.props.history.push("/auctions");
+  }
 
   _signIn(data) {
     apiAuth.signIn(data)
@@ -55,6 +55,7 @@ class Prelogin extends React.Component {
       const form = document.forms.credentialsForm;
       form.email.value = "";
 
+      this._redirectAuctions();
       return;
     })
     .fail((response) => {
