@@ -9,13 +9,13 @@ class SignIn extends React.Component {
   }
 
   componentDidMount() {
-    const data = {
-      credentials: {
-        email: "Z@Z",
-        password: "z",
-      }
-    };
-    this.props._signIn(data);
+    // const data = {
+    //   credentials: {
+    //     email: "Z@Z",
+    //     password: "z",
+    //   }
+    // };
+    // this.props._signIn(data);
   }
 
   _handleSignIn(event) {

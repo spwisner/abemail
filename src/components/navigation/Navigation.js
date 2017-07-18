@@ -39,7 +39,7 @@ export default class Navigation extends React.Component {
         <nav className="navbar navbar-inverse">
           <div className="container-fluid">
             <div className="navbar-header">
-              <span className="navbar-brand">Silent Auction</span>
+              <span className="navbar-brand">ABEmail</span>
             </div>
             <div>
               {postLoginDisplay ?
