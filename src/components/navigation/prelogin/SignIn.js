@@ -22,22 +22,22 @@ class SignIn extends React.Component {
     event.preventDefault();
     const form = document.forms.credentialsForm;
 
-    const data = {
-      credentials: {
-        email: form.email.value,
-        password: form.password.value,
-      }
-    };
+    // const data = {
+    //   credentials: {
+    //     email: form.email.value,
+    //     password: form.password.value,
+    //   }
+    // };
 
     /*********************FOR TESTING Start**************/
 
-    // Data predefined with testing credentials
-    // const data = {
-    //   credentials: {
-    //     email: "Z@Z",
-    //     password: "z",
-    //   }
-    // };
+    ///Data predefined with testing credentials
+    const data = {
+      credentials: {
+        email: "Z@Z",
+        password: "z",
+      }
+    };
 
     /****To remove empty var error from
         browser console with testing******/
