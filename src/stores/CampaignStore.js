@@ -11,16 +11,17 @@ class CampaignStore extends EventEmitter {
     return this.campaigns;
   }
 
-  _setCampaigns(data) {
-    this.campaigns = data;
+  _setCampaigns(array) {
+    this.campaigns = array;
     this.emit("change");
+    return;
   }
 
   handleActions(action) {
     switch(action.type) {
 
       case "SET_CAMPAIGNS": {
-        this._setCampaigns(action.object);
+        this._setCampaigns(action.array);
         break;
       }
 

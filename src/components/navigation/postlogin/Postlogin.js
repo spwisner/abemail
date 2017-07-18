@@ -3,9 +3,10 @@ import PostNavBtns from './PostNavBtns';
 import ChangePasswordForm from './ChangePasswordForm';
 import * as CredentialsActions from '../../../actions/CredentialsActions';
 const apiAuth = require('../../../api/api-credentials');
+import {withRouter} from "react-router-dom";
 
 
-export default class Postlogin extends React.Component {
+class Postlogin extends React.Component {
   constructor(props) {
     super(props);
 
@@ -26,6 +27,11 @@ export default class Postlogin extends React.Component {
     CredentialsActions._togglePostNavDropdown(dropdownState);
   }
 
+  _redirectPath() {
+    this.props.history.push("/");
+    console.log(this.props.history);
+  }
+
   _signOutRequest() {
     apiAuth.signOut()
       .done((response) => {
@@ -34,6 +40,7 @@ export default class Postlogin extends React.Component {
         CredentialsActions._setUserToken();
         CredentialsActions._togglePreNavDropdown("dropdown open");
         CredentialsActions._setDisplayCPForm(false);
+        this._redirectPath();
         return;
       })
       .fail((response) => {
@@ -73,3 +80,5 @@ export default class Postlogin extends React.Component {
     )
   }
 }
+
+export default withRouter(Postlogin);
