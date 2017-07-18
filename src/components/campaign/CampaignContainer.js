@@ -6,8 +6,11 @@ import CredentialsStore from '../../stores/CredentialsStore';
 import * as CampaignActions from '../../actions/CampaignActions';
 
 class CampaignContainer extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
+
+    this.onChange = this.onChange.bind(this);
+    this.onChangeCanceled = this.onChangeCanceled.bind(this);
 
     this.state = {
       campaigns: CampaignStore._getCampaigns(),
@@ -15,20 +18,22 @@ class CampaignContainer extends React.Component {
     };
   }
 
+  onChange() {
+    this.setState({
+      isSignedIn: CredentialsStore._getUserStatus()
+    })
+  }
+
+  onChangeCanceled() {
+    console.log('onChangeCanceled');
+  }
+
   componentDidMount() {
-    CredentialsStore.on("change", () => {
-      this.setState({
-        isSignedIn: CredentialsStore._getUserStatus(),
-      });
-    });
+    CredentialsStore.addListener("change", this.onChange);
+  }
 
-    CampaignStore.on("change", () => {
-      this.setState({
-        campaigns: CampaignStore._getCampaigns(),
-      });
-    });
-
-    return;
+  componentWillUnmount() {
+    CredentialsStore.removeListener("change", this.onChange);
   }
 
   render() {
