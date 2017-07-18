@@ -1,6 +1,7 @@
 import React from 'react';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import CampaignStore from '../../../stores/CampaignStore';
 import * as CredentialsActions from '../../../actions/CredentialsActions';
 const apiAuth = require('../../../api/api-credentials');
 import {withRouter} from "react-router-dom";
@@ -55,6 +56,7 @@ class Prelogin extends React.Component {
       const form = document.forms.credentialsForm;
       form.email.value = "";
 
+      CampaignStore._campaignsGetRequest();
       this._redirectCampaigns();
       return;
     })

@@ -28,24 +28,7 @@ class CampaignContainer extends React.Component {
       });
     });
 
-    const isSignedIn = this.state.isSignedIn;
-    if (isSignedIn) {
-      this.campaignsGetRequest();
-      console.log('get request)');
-    }
-
     return;
-  }
-
-  campaignsGetRequest() {
-    apiCampaigns.getCampaigns()
-      .done((response) => {
-        console.log(response)
-        CampaignActions._setCampaigns(response);
-      })
-      .fail((error) => {
-        console.log(error);
-      });
   }
 
   render() {
