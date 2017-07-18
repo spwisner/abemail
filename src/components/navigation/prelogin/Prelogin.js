@@ -62,9 +62,9 @@ class Prelogin extends React.Component {
     })
     .fail((response) => {
       if (response.statusText === "Unauthorized") {
-        return console.log('fail: Unauthorized');
+        return console.error('fail: Unauthorized');
       } else if (response.statusText === "error") {
-        return console.log('server error');
+        return console.error('server error');
       }
     });
   }

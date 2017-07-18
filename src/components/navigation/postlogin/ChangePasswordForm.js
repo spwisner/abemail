@@ -17,7 +17,7 @@ export default class ChangePasswordForm extends React.Component {
       return;
     })
     .fail(() => {
-      console.log('fail');
+      console.error('fail');
     });
   }
 

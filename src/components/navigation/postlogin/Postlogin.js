@@ -29,7 +29,6 @@ class Postlogin extends React.Component {
 
   _redirectPath() {
     this.props.history.push("/");
-    console.log(this.props.history);
   }
 
   _signOutRequest() {
@@ -45,9 +44,9 @@ class Postlogin extends React.Component {
       })
       .fail((response) => {
         if (response.status === 404) {
-          return console.log('fail: 404 Not found');
+          return console.error('fail: 404 Not found');
         } else if (response.status === 0) {
-          return console.log('server error');
+          return console.error('server error');
         }
       });
   }

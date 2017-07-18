@@ -9,8 +9,8 @@ class CampaignContainer extends React.Component {
   constructor() {
     super();
 
-    this.onChange = this.onChange.bind(this);
-    this.onChangeCanceled = this.onChangeCanceled.bind(this);
+    this.onChangeCredentials = this.onChangeCredentials.bind(this);
+    this.onChangeCampaign = this.onChangeCampaign.bind(this);
 
     this.state = {
       campaigns: CampaignStore._getCampaigns(),
@@ -18,22 +18,26 @@ class CampaignContainer extends React.Component {
     };
   }
 
-  onChange() {
+  onChangeCredentials() {
     this.setState({
       isSignedIn: CredentialsStore._getUserStatus()
     })
   }
 
-  onChangeCanceled() {
-    console.log('onChangeCanceled');
+  onChangeCampaign() {
+    this.setState({
+      campaigns: CampaignStore._getCampaigns(),
+    })
   }
 
   componentDidMount() {
-    CredentialsStore.addListener("change", this.onChange);
+    CredentialsStore.addListener("change", this.onChangeCredentials);
+    CampaignStore.addListener("change", this.onChangeCampaign);
   }
 
   componentWillUnmount() {
-    CredentialsStore.removeListener("change", this.onChange);
+    CredentialsStore.removeListener("change", this.onChangeCredentials);
+    CampaignStore.removeListener("change", this.onChangeCampaign);
   }
 
   render() {

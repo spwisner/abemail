@@ -13,11 +13,10 @@ class CampaignStore extends EventEmitter {
   _campaignsGetRequest() {
     apiCampaigns.getCampaigns()
       .done((response) => {
-        console.log(response)
         this.campaigns = response;
       })
       .fail((error) => {
-        console.log(error);
+        console.error('Campaign GET Request Error');
       });
   }
 
