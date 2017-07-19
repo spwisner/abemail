@@ -1,9 +1,7 @@
 import React from 'react';
 import CampaignStore from '../../stores/CampaignStore';
 import CampaignIndex from './CampaignIndex';
-const apiCampaigns = require('../../api/api-campaigns');
 import CredentialsStore from '../../stores/CredentialsStore';
-import * as CampaignActions from '../../actions/CampaignActions';
 
 class CampaignContainer extends React.Component {
   constructor() {
